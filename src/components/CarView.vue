@@ -11,6 +11,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment'
 
 export default {
   name: 'CarView',
@@ -89,6 +90,10 @@ export default {
       gltfLoader.load('./car.gltf', (gltf) => {
         this.model = gltf.scene
         this.model.traverse((item) => {
+          if (item.material) {
+            item.material.emissive = new THREE.Color(0x000000)
+            item.material.emissiveIntensity = 0
+          }
           if (['Obj3d66-870414-4-94', 'Obj3d66-870414-4-94_3'].includes(item.name)) {
             item.material = this.bodyMatetial
           }
@@ -113,7 +118,14 @@ export default {
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       this.renderer.setSize(width, height)
       this.renderer.setClearColor(0x050914, 1)
+      this.renderer.outputColorSpace = THREE.SRGBColorSpace
+      this.renderer.toneMapping = THREE.ACESFilmicToneMapping
+      this.renderer.toneMappingExposure = 1.0
       container.appendChild(this.renderer.domElement)
+
+      const pmremGenerator = new THREE.PMREMGenerator(this.renderer)
+      this.scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture
+      pmremGenerator.dispose()
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.enableDamping = true
@@ -162,9 +174,9 @@ export default {
       this.composer.addPass(renderPass)
 
       this.unrealBloomPass = new UnrealBloomPass(size, 1.5, 0.4, 0.85)
-      this.unrealBloomPass.threshold = 1
-      this.unrealBloomPass.strength = 1.5
-      this.unrealBloomPass.radius = 1
+      this.unrealBloomPass.threshold = 1.2
+      this.unrealBloomPass.strength = 0.45
+      this.unrealBloomPass.radius = 0.35
       this.unrealBloomPass.renderToScreen = false
 
       this.glowComposer = new EffectComposer(this.renderer)
@@ -205,7 +217,7 @@ export default {
     },
 
     initLight() {
-      const light = new THREE.DirectionalLight(0xffffff, 1)
+      const light = new THREE.DirectionalLight(0xffffff, 1.2)
       light.position.set(0, 4, 10)
       this.scene.add(light)
 
@@ -217,7 +229,7 @@ export default {
       light3.position.set(8, 5, -8)
       this.scene.add(light3)
 
-      const ambient = new THREE.AmbientLight(0x22304a, 0.9)
+      const ambient = new THREE.AmbientLight(0x22304a, 1.3)
       this.scene.add(ambient)
     },
 

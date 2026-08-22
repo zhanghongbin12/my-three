@@ -9,13 +9,12 @@
     <header class="site-mark">
       <span class="mark-dot"></span>
       <div>
-        <strong>3D Portfolio Lab</strong>
+        <strong>3D 作品集实验室</strong>
         <small>Vue 2 / Three.js</small>
       </div>
     </header>
 
     <section class="scene-copy" :key="`${currentProject}-copy`">
-      <p class="scene-index">{{ activeProject.index }}</p>
       <h1>{{ activeProject.title }}</h1>
       <p class="scene-description">{{ activeProject.description }}</p>
       <div class="tech-list" aria-label="技术标签">
@@ -24,7 +23,7 @@
     </section>
 
     <nav class="scene-dock" aria-label="选择作品">
-      <div class="dock-track" role="radiogroup" aria-label="Three.js works">
+      <div class="dock-track" role="radiogroup" aria-label="Three.js 作品集">
         <button
           v-for="project in projects"
           :key="project.value"
@@ -58,19 +57,19 @@ export default {
       projects: [
         {
           value: 'earth',
-          index: 'PROJECT 01',
-          short: 'Earth',
-          name: 'my-three1',
-          title: 'Planetary Scene',
+        
+          short: '地球',
+          name: '场景 01',
+          title: '行星场景',
           description: '地球纹理、云层、大气辉光和轨道控制组成的沉浸式行星展示。',
           tech: ['Three.js', 'Texture Mapping', 'ShaderMaterial', 'OrbitControls']
         },
         {
           value: 'car',
-          index: 'PROJECT 02',
-          short: 'Car',
-          name: 'my-three2',
-          title: 'Automotive Model',
+       
+          short: '汽车',
+          name: '场景 02',
+          title: '汽车模型展示',
           description: 'GLTF 模型加载、材质替换、灯光和后期辉光组合成的 3D 汽车展台。',
           tech: ['GLTFLoader', 'Mesh Material', 'Bloom Pass', 'Vue Component']
         }
@@ -199,7 +198,7 @@ body {
 }
 
 .scene-description {
-  max-width: 430px;
+  width: max-content;
   margin: 18px 0 0;
   color: rgba(255, 255, 255, 0.7);
   font-size: 16px;
