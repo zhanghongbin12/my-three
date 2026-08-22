@@ -7,10 +7,12 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
+const BASE_URL = process.env.BASE_URL || '/'
+
 const TEXTURES = {
-  earth: '/textures/earth/earth_atmos_2048.jpg',
-  specular: '/textures/earth/earth_specular_2048.jpg',
-  clouds: '/textures/earth/earth_clouds_1024.png'
+  earth: `${BASE_URL}textures/earth/earth_atmos_2048.jpg`,
+  specular: `${BASE_URL}textures/earth/earth_specular_2048.jpg`,
+  clouds: `${BASE_URL}textures/earth/earth_clouds_1024.png`
 }
 
 const ATMOSPHERE_VERTEX = `
